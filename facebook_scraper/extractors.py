@@ -284,7 +284,12 @@ class PostExtractor:
 
         
         texts = defaultdict(str)
-
+        
+        texts["text"] += element.xpath("//p", first=True).text
+        texts["post_text"] += element.xpath("//p", first=True).text
+        texts["shared_text"] += element.xpath("//p", first=True).text
+        texts["original_text"] += element.xpath("//p", first=True).text
+        
         for container_index, container in enumerate(story_containers):
             
             has_translation = self.has_translation_regex.search(container.html)
