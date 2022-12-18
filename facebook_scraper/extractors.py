@@ -496,7 +496,7 @@ class PostExtractor:
             return None
 
         url = utils.urljoin(FB_BASE_URL, path)
-        return {'post_url': url}
+        return {'post_url': url.replace('mbasic','m')}
 
     # TODO: Remove `or 0` from this methods
     def extract_likes(self) -> PartialPost:
@@ -1432,8 +1432,8 @@ class PostExtractor:
 class GroupPostExtractor(PostExtractor):
     """Class for extracting posts from Facebook Groups rather than Pages"""
 
-    post_url_regex = re.compile(r'https://m.facebook.com/groups/[^/]+/permalink/')
-    post_story_regex = re.compile(r'href="(https://m.facebook.com/groups/[^/]+/permalink/\d+/)')
+    post_url_regex = re.compile(r'https://mbasic.facebook.com/groups/[^/]+/permalink/')
+    post_story_regex = re.compile(r'href="(https://mbasic.facebook.com/groups/[^/]+/permalink/\d+/)')
 
 
 class PhotoPostExtractor(PostExtractor):
