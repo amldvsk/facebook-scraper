@@ -86,7 +86,7 @@ class PostExtractor:
     )
     bad_json_key_regex = re.compile(r'(?P<prefix>[{,])(?P<key>\w+):')
 
-    more_url_regex = re.compile(r'(?<=…\s)<a')
+    more_url_regex = re.compile(r'(?<=More\s)<a')
     has_translation_regex = re.compile(r'<span.*>Rate Translation</span>')
     post_story_regex = re.compile(r'href="(\/story[^"]+)" aria')
 
@@ -157,8 +157,8 @@ class PostExtractor:
         """Parses the element into self.item"""
 
         methods = [
-            self.extract_post_url,
             self.extract_post_id,
+            self.extract_post_url,            
             self.extract_text,
             self.extract_time,
             self.extract_photo_link,
@@ -279,7 +279,7 @@ class PostExtractor:
         element = self.element
 
         story_containers = element.find(".story_body_container")  
-
+        nodes = []
         has_more = self.more_url_regex.search(element.html)
         if has_more and self.full_post_html:
             element = self.full_post_html.find('.story_body_container', first=True)
@@ -289,12 +289,10 @@ class PostExtractor:
 
         
         texts = defaultdict(str)
-        
         texts["text"] += element.xpath("//p", first=True).text
         texts["post_text"] += element.xpath("//p", first=True).text
         texts["shared_text"] += element.xpath("//p", first=True).text
         texts["original_text"] += element.xpath("//p", first=True).text
-        
         for container_index, container in enumerate(story_containers):
             
             has_translation = self.has_translation_regex.search(container.html)
@@ -491,6 +489,9 @@ class PostExtractor:
                     path = f'watch?v={video_post_id}'
                 else:
                     path = f'{account}/videos/{video_post_id}'
+            elif f'/{self.post.get("post_id")}/' in href:
+                path = href.replace(FB_MOBILE_BASE_URL,'')
+                path = utils.filter_query_params(path, whitelist=query_params)
 
         post_id = self.data_ft.get('top_level_post_id')
 
@@ -501,7 +502,7 @@ class PostExtractor:
             return None
 
         url = utils.urljoin(FB_BASE_URL, path)
-        return {'post_url': url.replace('mbasic','m')}
+        return {'post_url': url}
 
     # TODO: Remove `or 0` from this methods
     def extract_likes(self) -> PartialPost:
