@@ -53,7 +53,7 @@ def iter_search_pages(word: str, request_fn: RequestFunction, **kwargs) -> Itera
         start_url = utils.urljoin(
             FB_MOBILE_BASE_URL,
             f'/search/posts?q={word}'
-            f'&filters=eyJyZWNlbnRfcG9zdHM6MCI6IntcIm5hbWVcIjpcInJlY2VudF9wb3N0c1wiLFwiYXJnc1wiOlwiXCJ9In0%3D',
+            f'&filters=eyJycF9jcmVhdGlvbl90aW1lOjAiOiJ7XCJuYW1lXCI6XCJjcmVhdGlvbl90aW1lXCIsXCJhcmdzXCI6XCJ7XFxcInN0YXJ0X3llYXJcXFwiOlxcXCIyMDIzXFxcIixcXFwic3RhcnRfbW9udGhcXFwiOlxcXCIyMDIzLTFcXFwiLFxcXCJlbmRfeWVhclxcXCI6XFxcIjIwMjNcXFwiLFxcXCJlbmRfbW9udGhcXFwiOlxcXCIyMDIzLTEyXFxcIixcXFwic3RhcnRfZGF5XFxcIjpcXFwiMjAyMy0xLTFcXFwiLFxcXCJlbmRfZGF5XFxcIjpcXFwiMjAyMy0xMi0zMVxcXCJ9XCJ9IiwicnBfYXV0aG9yOjAiOiJ7XCJuYW1lXCI6XCJteV9ncm91cHNfYW5kX3BhZ2VzX3Bvc3RzXCIsXCJhcmdzXCI6XCJcIn0ifQ%3D%3D',
         )
         try:
             request_fn(start_url)
