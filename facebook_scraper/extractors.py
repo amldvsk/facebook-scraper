@@ -252,10 +252,15 @@ class PostExtractor:
         return post
 
     def extract_post_id(self) -> PartialPost:
-        return {
-            'post_id': self.live_data.get("ft_ent_identifier")
-            or self.data_ft.get('top_level_post_id')
-        }
+        post_id = self.live_data.get("ft_ent_identifier") or self.data_ft.get('top_level_post_id')
+        if not post_id:
+            try:
+                regex = r"(?<=permalink\/)\d+"
+                href = self.element.xpath("//a[contains(text(),'Comments')]")[0].attrs.get('href')
+                post_id = re.findall(regex, href)[0]
+            except Exception as ex:
+                log_warning("Exception while extract_post_id: %r", ex)
+        return {'post_id': post_id}
 
     def extract_username(self) -> PartialPost:
         elem = self.element.find('h3 strong a,a.actor-link', first=True)
