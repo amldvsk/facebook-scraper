@@ -195,6 +195,9 @@ class FacebookScraper:
 
     def get_posts_by_search(self, word: str, **kwargs) -> Iterator[Post]:
         kwargs["scraper"] = self
+        self.set_user_agent(
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/603.3.8 (KHTML, like Gecko) Version/10.1.2 Safari/603.3.8"
+        )
         iter_pages_fn = partial(iter_search_pages, word=word, request_fn=self.get, **kwargs)
         return self._generic_get_posts(extract_post, iter_pages_fn, **kwargs)
 
