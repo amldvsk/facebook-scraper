@@ -1,3 +1,5 @@
+from sys import platform
+
 FB_BASE_URL = 'https://facebook.com/'
 FB_W3_BASE_URL = 'https://www.facebook.com/'
 FB_MOBILE_BASE_URL = 'https://mbasic.facebook.com/' if platform == "darwin" else 'https://m.facebook.com/'
